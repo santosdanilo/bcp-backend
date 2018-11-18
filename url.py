@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import render_template
 from flask import json
 from flask import Response
 
@@ -12,7 +13,7 @@ template_folder="./dist")
 
 @app.route('/') 
 def hello_world(): 
-    return 'Hello, World!'
+    return render_template("index.html")
 
 @app.route('/api/<bookStore>/book/<bookName>', methods=['GET']) 
 def getStoreBooks(bookStore,bookName):
