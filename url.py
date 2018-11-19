@@ -12,12 +12,13 @@ static_folder="./dist/static",
 template_folder="./dist")
 
 @app.route('/') 
-def hello_world(): 
+def index(): 
     return render_template("index.html")
 
 @app.route('/api/<bookStore>/book/<bookName>', methods=['GET']) 
 def getStoreBooks(bookStore,bookName):
-    getBook = core.getBookStore(bookStore) 
+    getBookStore = {**core.stores, **cedet.stores}
+    getBook = getBookStore[bookStore]
     js = json.dumps(getBook(bookName))
     resp = Response(js, status=200, mimetype='application/json')
     return resp

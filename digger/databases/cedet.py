@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 from digger.databases import helpers
 from digger.models.Book import Book
+from digger.models.Store import manyStores
 
 def ecclesiae(bookName):
     url = "https://ecclesiae.com.br/index.php?route=product/search&search=" + bookName
@@ -36,5 +37,14 @@ def mapper(product):
     return Book(
         image=product.find('img')['src'],
         price= product.findAll('span')[1].text,
-        url=product.find('a')['href']
+        url=product.find('a')['href'],
+        name=product.select_one('div.name a').text
     )
+
+stores = { 
+    'ecclesiae': ecclesiae,
+    'deiaetiba': deiaetiba,
+    'bernardo': bernardo,
+    'seminarioFilosofia': seminarioFilosofia,
+    'nandoMoura': nandoMoura
+}

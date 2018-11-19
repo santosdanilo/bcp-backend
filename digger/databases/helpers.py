@@ -15,7 +15,9 @@ def cleanPrice(string: str):
     s = s.replace(' ','')
     s = s.replace('\n','')
     s = s.replace('\xa0','')
-    s = s.replace('Por:','')
+    s = s.replace(':','')
+    s = s.replace('Por','')
+    s = s.replace('por','')
     return s
 
 checkIfNone = lambda x: type(x) != type(None)
