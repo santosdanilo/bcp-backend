@@ -1,7 +1,6 @@
 from bs4 import BeautifulSoup
 from digger.databases import helpers
 from digger.models.Book import Book
-from digger.models.Store import manyStores
 
 def eRealizacoes(bookName):
     url = "https://www.erealizacoes.com.br/busca?palavra=" + bookName
@@ -11,7 +10,7 @@ def eRealizacoes(bookName):
             price=helpers.priceFloat(product.find('p', {'class':'preco-atual'}).text),
             url="https://www.erealizacoes.com.br/" + product.find('a')['href'],
             name=product.select_one('h3 a').text,
-            store=manyStores("eRealizacoes")
+            store="eRealizacoes"
     ), html.select('div.lista-livros ul li')))
     return books
 
@@ -23,7 +22,7 @@ def livrariaFolha(bookName):
             price=helpers.priceFloat(product.find('ins').text),
             url=product.find('a')['href'],
             name=product.find('h3', {'class':'title-prod'}).text,
-            store=manyStores("livrariaDaFolha")
+            store="livrariaDaFolha"
         ), html.select('section.cover-products div.spam2')))
     return books
 
@@ -43,13 +42,13 @@ def mapQuadrante(product):
             price = product.select_one('p.special-price span.price').text
         price = helpers.priceFloat(price)
     else :
-        price = 'Fora de Estoque'
+        price = None
     return Book(
             image=product.find('img')['src'],
             price=price,
             url=product.find('a')['href'],
             name=product.select_one('h2.product-name a').text,
-            store=manyStores("quadrante")
+            store="quadrante"
         )
 
 def caritatem(bookName):
@@ -60,7 +59,7 @@ def caritatem(bookName):
             price=helpers.priceFloat(product.select_one('div#price_display').text),
             url=product.find('a')['href'],
             name=product.find('h2',{'class':'item-name'}).text,
-            store=manyStores('caritatem')
+            store='caritatem'
         ), html.select('section.product-grid div.item')))
     return books
 
@@ -90,13 +89,13 @@ def mapFamiliaCrista(product):
             price = product.select_one('p.special-price span.price').text
         price = helpers.priceFloat(price)
     else :
-        price = 'Fora de Estoque'
+        price = None
     return Book(
             image=product.find('img')['src'],
             price=price,
             url=product.find('a')['href'],
             name=product.select_one('h2.product-name a').text,
-            store=manyStores("familiaCrista")
+            store="familiaCrista"
         )
 
 def paulus(bookName):
@@ -107,7 +106,7 @@ def paulus(bookName):
             price=helpers.priceFloat(product.select_one('span.preco').text),
             url=product.select_one('a')['href'],
             name=product.find('p',{'class':'titulo'}).text,
-            store=manyStores('paulus')
+            store='paulus'
         ), html.select('ul#produto-lista li')))
     return books
 
@@ -129,7 +128,7 @@ def shalom(bookName):
             price=helpers.priceFloat(product.select_one('span.price').text),
             url=product.select_one('a')['href'],
             name=product.find('a',{'class':'product-item-link'}).text,
-            store=manyStores('shalom')
+            store='shalom'
         ), html.select('ol.products div.product-item-info')))
     return books
 
@@ -141,7 +140,7 @@ def cultorDeLivros(bookName):
             price=helpers.priceFloat(product.select_one('div.precoPor span.fbits-valor').text),
             url="https://www.cultordelivros.com.br" + product.select_one('a')['href'],
             name=product.find('h3',{'class':'spotTitle'}).text,
-            store=manyStores("cultorDeLivros")
+            store="cultorDeLivros"
         ), html.select('div.spots-interna div.spotContent')))
     return books
 
@@ -177,7 +176,7 @@ def mapCancaoNova(product):
             price=helpers.cleanPrice(price),
             url=product.find('a', {'class':'product-image'})['href'],
             name=product.select_one('h2.product-name a').text,
-            store=manyStores("cancaoNova")
+            store="cancaoNova"
         )
 
 def sociedadeChestertonBrasil(bookName):
@@ -200,7 +199,7 @@ def mapSociedadeChestertonBrasil(product):
             price=helpers.priceFloat(price.text),
             url=product.find('a')['href'],
             name=product.select_one('li.title a').text,
-            store=manyStores("sociedadeChestertonBrasil")
+            store="sociedadeChestertonBrasil"
         )
 
 
@@ -241,3 +240,5 @@ def getBookStore(bookStore: str):
 # https://www.centrosaojosemaria.com.br/shop/
 # instituto jackson figueiredo
 # hugo de sao vitor
+# travessa
+# planeta

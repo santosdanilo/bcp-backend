@@ -1,7 +1,6 @@
 from bs4 import BeautifulSoup
 from digger.databases import helpers
 from digger.models.Book import Book
-from digger.models.Store import manyStores
 
 def ecclesiae(bookName):
     url = "https://ecclesiae.com.br/index.php?route=product/search&search=" + bookName
@@ -19,7 +18,6 @@ def bernardo(bookName):
     url = "https://livrariadobernardo.com/index.php?route=product/search&search=" + bookName
     html = helpers.requestAndParse(url)
     books = list(map(mapper, html.select('div.product')))
-    print(html.select('div.product'))
     return books
 
 def seminarioFilosofia(bookName):
@@ -34,8 +32,6 @@ def mapper(product):
         price = check_price.text
     else:
         price = product.select_one('div.price').text
-        
-    print(product.select_one('div.name a').text + " " + price) 
     return Book(
         image=product.find('img')['src'],
         price=helpers.priceFloat(price),
@@ -51,7 +47,7 @@ def nandoMoura(bookName):
         price=helpers.priceFloat(product.select_one('div.cart-price span.prices').text),
         url=product.find('a')['href'],
         name=product.select_one('span.title a').text,
-        store=manyStores("nandoMoura")
+        store="nandoMoura"
     ), html.select('section.features-books div.slide')))
     return books
 

@@ -16,13 +16,16 @@ def requestAndParse(url):
 def containsName(other, string):
     s1 = re.sub('^[a-zA-Z0-9_]+$', '', other)
     s2 = re.sub('^[a-zA-Z0-9_]+$', '', string)
-    s1 = toAscii(s1)
-    s2 = toAscii(s2)
-    print(s1)
-    print(s1)
     s1 = s1.lower()
     s2 = s2.lower()
-    return s1 in s2
+    s1 = toAscii(s1)
+    s2 = toAscii(s2)
+    s1 = s1.decode('ascii')
+    s2 = s2.decode('ascii')
+    for s in s1.split():
+        if s in s2:
+            return True
+    return False
 
 toAscii = lambda x: unicodedata.normalize('NFKD', x).encode('ASCII', 'ignore')
 
