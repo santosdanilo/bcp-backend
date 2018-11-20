@@ -5,14 +5,17 @@ verify_ssl = true
 
 [dev-packages]
 pylint = "*"
+wheel = "*"
+pytest = "*"
+pytest-watch = "*"
+pytest-testmon = "*"
 
 [packages]
 requests = "*"
 beautifulsoup4 = "*"
 flask = "*"
-pytest = "*"
-pytest-watch = "*"
-pytest-testmon = "*"
+babel = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.6"

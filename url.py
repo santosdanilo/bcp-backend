@@ -3,9 +3,7 @@ from flask import render_template
 from flask import json
 from flask import Response
 
-from digger.databases import core
-from digger.databases import cedet
-from digger.databases import loja_integrada
+from digger.central import getBooksFrom
 
 app = Flask(__name__,
 static_folder="./dist/static",
@@ -17,8 +15,7 @@ def index():
 
 @app.route('/api/<bookStore>/book/<bookName>', methods=['GET']) 
 def getStoreBooks(bookStore,bookName):
-    getBookStore = {**core.stores, **cedet.stores}
-    getBook = getBookStore[bookStore]
-    js = json.dumps(getBook(bookName))
+    books = getBooksFrom(bookStore, bookName) 
+    js = json.dumps(books)
     resp = Response(js, status=200, mimetype='application/json')
     return resp

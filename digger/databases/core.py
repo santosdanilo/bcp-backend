@@ -8,7 +8,7 @@ def eRealizacoes(bookName):
     html = helpers.requestAndParse(url)
     books = list(map(lambda product: Book(
             image="https://www.erealizacoes.com.br/" + product.find('img')['src'],
-            price=helpers.cleanPrice(product.find('p', {'class':'preco-atual'}).text),
+            price=helpers.priceFloat(product.find('p', {'class':'preco-atual'}).text),
             url="https://www.erealizacoes.com.br/" + product.find('a')['href'],
             name=product.select_one('h3 a').text,
             store=manyStores("eRealizacoes")
@@ -20,7 +20,7 @@ def livrariaFolha(bookName):
     html = helpers.requestAndParse(url)
     books = list(map(lambda product: Book(
             image=product.find('img')['src'],
-            price=helpers.cleanPrice(product.find('ins').text),
+            price=helpers.priceFloat(product.find('ins').text),
             url=product.find('a')['href'],
             name=product.find('h3', {'class':'title-prod'}).text,
             store=manyStores("livrariaDaFolha")
@@ -31,7 +31,6 @@ def quadrante(bookName: str):
     url = "https://www.quadrante.com.br/catalogsearch/result/?q=" + bookName
     html = helpers.requestAndParse(url)
     books = list(map(mapQuadrante, html.select('ul.products-grid li.item div.box-hover')))
-
     return books
 
 def mapQuadrante(product):
@@ -42,11 +41,12 @@ def mapQuadrante(product):
             price = product.select_one('span.regular-price span.price').text
         else :
             price = product.select_one('p.special-price span.price').text
+        price = helpers.priceFloat(price)
     else :
         price = 'Fora de Estoque'
     return Book(
             image=product.find('img')['src'],
-            price=helpers.cleanPrice(price),
+            price=price,
             url=product.find('a')['href'],
             name=product.select_one('h2.product-name a').text,
             store=manyStores("quadrante")
@@ -56,8 +56,8 @@ def caritatem(bookName):
     url = "https://www.livrariacaritatem.com.br/search/?q=" + bookName
     html = helpers.requestAndParse(url)
     books = list(map(lambda product: Book(
-            image=product.select_one('div.item-image-container img')['src'],
-            price=helpers.cleanPrice(product.select_one('div#price_display').text),
+            image="http:" + product.select_one('div.item-image-container img')['src'],
+            price=helpers.priceFloat(product.select_one('div#price_display').text),
             url=product.find('a')['href'],
             name=product.find('h2',{'class':'item-name'}).text,
             store=manyStores('caritatem')
@@ -69,7 +69,7 @@ def estanteVirtual(bookName):
     html = helpers.requestAndParse(url)
     books = list(map(lambda product: Book(
             image=product.find('img')['src'],
-            price=helpers.cleanPrice(product.select_one('strong.busca-price.m-min span').text),
+            price=helpers.priceFloat(product.select_one('strong.busca-price.m-min span').text),
             url=product['href']
         ), html.select('a.busca-box')))
     return books
@@ -88,11 +88,12 @@ def mapFamiliaCrista(product):
             price = product.select_one('span.regular-price span.price').text
         else :
             price = product.select_one('p.special-price span.price').text
+        price = helpers.priceFloat(price)
     else :
         price = 'Fora de Estoque'
     return Book(
             image=product.find('img')['src'],
-            price=helpers.cleanPrice(price),
+            price=price,
             url=product.find('a')['href'],
             name=product.select_one('h2.product-name a').text,
             store=manyStores("familiaCrista")
@@ -103,7 +104,7 @@ def paulus(bookName):
     html = helpers.requestAndParse(url)
     books = list(map(lambda product: Book(
             image=" https://www.paulus.com.br/loja/" + product.find('img')['src'],
-            price=helpers.cleanPrice(product.select_one('span.preco').text),
+            price=helpers.priceFloat(product.select_one('span.preco').text),
             url=product.select_one('a')['href'],
             name=product.find('p',{'class':'titulo'}).text,
             store=manyStores('paulus')
@@ -115,7 +116,7 @@ def santaCruz(bookName):
     html = helpers.requestAndParse(url)
     books = list(map(lambda product: Book(
             image=product.find('img')['src'],
-            price=helpers.cleanPrice(product.select_one('span.price').text),
+            price=helpers.priceFloat(product.select_one('span.price').text),
             url=product.select_one('a')['href']
         ), html.findAll('li',{'class':'produto-item'})))
     return books
@@ -125,7 +126,7 @@ def shalom(bookName):
     html = helpers.requestAndParse(url)
     books = list(map(lambda product: Book(
             image=product.find('img')['src'],
-            price=helpers.cleanPrice(product.select_one('span.price').text),
+            price=helpers.priceFloat(product.select_one('span.price').text),
             url=product.select_one('a')['href'],
             name=product.find('a',{'class':'product-item-link'}).text,
             store=manyStores('shalom')
@@ -137,7 +138,7 @@ def cultorDeLivros(bookName):
     html = helpers.requestAndParse(url)
     books = list(map(lambda product: Book(
             image=product.find('img')['src'],
-            price=helpers.cleanPrice(product.select_one('div.precoPor span.fbits-valor').text),
+            price=helpers.priceFloat(product.select_one('div.precoPor span.fbits-valor').text),
             url="https://www.cultordelivros.com.br" + product.select_one('a')['href'],
             name=product.find('h3',{'class':'spotTitle'}).text,
             store=manyStores("cultorDeLivros")
@@ -149,7 +150,7 @@ def loyola(bookName):
     html = helpers.requestAndParse(url)
     books = list(map(lambda product: Book(
             image=product.find('img')['src'],
-            price=helpers.cleanPrice(product.select_one('ins').text),
+            price=helpers.priceFloat(product.select_one('ins').text),
             url=product.select_one('a')['href']
         ), html.select('nav.listProducts li')))
     return books
@@ -168,6 +169,7 @@ def mapCancaoNova(product):
             price = product.select_one('span.regular-price span.price').text
         else :
             price = product.select_one('p.special-price span.price').text
+        price = helpers.priceFloat(price)
     else :
         price = 'Fora de Estoque'
     return Book(
@@ -193,12 +195,12 @@ def mapSociedadeChestertonBrasil(product):
         price = product.select_one('ins span.woocommerce-Price-amount')
     else :
         price = product.select_one('span.price')
-    
     return Book(
             image=product.find('img')['src'],
-            price=helpers.cleanPrice(price.text),
+            price=helpers.priceFloat(price.text),
             url=product.find('a')['href'],
-            name=product.select_one('li.title a').text
+            name=product.select_one('li.title a').text,
+            store=manyStores("sociedadeChestertonBrasil")
         )
 
 

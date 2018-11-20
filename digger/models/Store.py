@@ -36,7 +36,7 @@ def manyStores(name: str):
         ),
         'livrariaDaFolha': Store(
             name="Livraria da Folha",
-            image=""
+            image="https://s3.amazonaws.com/media.cuponeria.com.br/2014/03/logofolha.jpg"
         ),
         'caritatem': Store(
             name="Caritatem",
@@ -52,7 +52,15 @@ def manyStores(name: str):
         ),
         'ecclesiae': Store(
             name="Ecclesiae",
-            image=""
+            image="https://scontent.fbsb9-1.fna.fbcdn.net/v/t1.0-1/1912080_617983061607364_1659207268_n.jpg?_nc_cat=107&_nc_ht=scontent.fbsb9-1.fna&oh=78c907a75a72dda0f33044216aba89a0&oe=5C815EEF"
+        ),
+        'nandoMoura': Store(
+            name="Nando Moura",
+            image="https://livraria.nandomoura.com/image/data/logo/logo-nm-branco-170.png"
+        ),
+        'sociedadeChestertonBrasil': Store(
+            name="Sociedade Chesterton Brasil",
+            image="https://www.sociedadechestertonbrasil.org/wp-content/uploads/2017/10/cropped-Chesterton_logo-vermelhored-1.png"
         )
     }
     return store[name]
